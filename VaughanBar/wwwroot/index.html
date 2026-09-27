@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaughan Bar - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+  <div class="login-shell">
+    <div class="login-card">
+      <div class="brand-mark">Vaughan Bar</div>
+      <div class="brand-sub">Sistema de Gestão</div>
+
+      <div id="login-erro" class="vb-alert vb-alert-danger d-none"></div>
+
+      <form id="form-login">
+        <div class="mb-3">
+          <label for="login" class="form-label">Usuário</label>
+          <input type="text" id="login" class="form-control" placeholder="Seu login" autofocus>
+        </div>
+        <div class="mb-4">
+          <label for="senha" class="form-label">Senha</label>
+          <input type="password" id="senha" class="form-control" placeholder="Sua senha">
+        </div>
+        <button type="submit" class="btn btn-amber w-100">Entrar</button>
+      </form>
+
+      <p class="text-center mt-4" style="color: var(--vb-cream-dim); font-size: 0.75rem;">
+        Acesso de demonstração: admin / admin123
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaughan Bar - Relatórios</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="relatorios-page">
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content relatorios-content">
+      <div class="page-title relatorios-page-header">
+        <h1 class="mb-0">Relatórios</h1>
+      </div>
+
+      <div class="vb-panel relatorio-filtros">
+        <div class="relatorio-filtro-campo">
+          <label for="filtro-inicio" class="form-label">De</label>
+          <input type="date" id="filtro-inicio" class="form-control">
+        </div>
+        <div class="relatorio-filtro-campo">
+          <label for="filtro-fim" class="form-label">Até</label>
+          <input type="date" id="filtro-fim" class="form-control">
+        </div>
+        <button type="button" id="btn-filtrar" class="btn vb-btn-dark">Filtrar</button>
+      </div>
+
+      <div class="row g-3 relatorio-resumo-grid">
+        <div class="col-md-4">
+          <div class="vb-panel relatorio-resumo-card h-100">
+            <div class="relatorio-resumo-label">Total vendido</div>
+            <div class="relatorio-resumo-value" id="resumo-total">R$ 0,00</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="vb-panel relatorio-resumo-card h-100">
+            <div class="relatorio-resumo-label">Comandas fechadas</div>
+            <div class="relatorio-resumo-value" id="resumo-qtd">0</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="vb-panel relatorio-resumo-card h-100">
+            <div class="relatorio-resumo-label">Ticket médio</div>
+            <div class="relatorio-resumo-value" id="resumo-ticket">R$ 0,00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 relatorio-tabelas-grid">
+        <div class="col-lg-6">
+          <div class="vb-panel relatorio-table-card h-100">
+            <h2>Produtos mais vendidos</h2>
+            <div class="table-responsive">
+              <table class="table vb-table relatorio-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Produto</th>
+                    <th class="text-end">Qtd</th>
+                    <th class="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-produtos">
+                  <tr><td colspan="3" class="text-center py-4 relatorio-table-state">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="vb-panel relatorio-table-card h-100">
+            <h2>Vendas por garçom</h2>
+            <div class="table-responsive">
+              <table class="table vb-table relatorio-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Garçom</th>
+                    <th class="text-end">Comandas</th>
+                    <th class="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-usuarios">
+                  <tr><td colspan="3" class="text-center py-4 relatorio-table-state">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/relatorios.js"></script>
+</body>
+</html>

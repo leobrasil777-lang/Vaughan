@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaughan Bar - Comanda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center page-title">
+        <h1 class="h3 mb-0">Comanda <span id="titulo-comanda-id"></span></h1>
+        <a href="mesas.html" class="btn btn-outline-amber btn-sm">&larr; Voltar para Mesas</a>
+      </div>
+
+      <div id="msg-area"></div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="vb-panel">
+            <p class="mb-1"><strong>Mesa:</strong> <span id="info-mesa">-</span></p>
+            <p class="mb-1"><strong>Cliente:</strong> <span id="info-cliente">-</span></p>
+            <p class="mb-1"><strong>Garçom:</strong> <span id="info-garcom">-</span></p>
+            <p class="mb-1"><strong>Status:</strong> <span id="info-status">-</span></p>
+            <p class="mb-0"><strong>Aberta em:</strong> <span id="info-data">-</span></p>
+          </div>
+
+          <div class="vb-panel">
+            <h2 class="h6" style="color: var(--vb-cream-dim);">Adicionar item</h2>
+            <div class="mb-2">
+              <label class="form-label">Produto</label>
+              <select id="select-produto" class="form-select"></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Quantidade</label>
+              <input type="number" id="input-quantidade" class="form-control" value="1" min="1">
+            </div>
+            <button id="btn-add-item" class="btn btn-amber w-100">Adicionar à comanda</button>
+          </div>
+
+          <div class="vb-panel">
+            <button id="btn-fechar" class="btn btn-amber w-100 mb-2">Fechar comanda</button>
+            <button id="btn-cancelar" class="btn btn-outline-amber w-100">Cancelar comanda</button>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="vb-panel">
+            <table class="table vb-table mb-0">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Qtd</th>
+                  <th>Preço unit.</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tbody-itens">
+                <tr><td colspan="5" class="text-center py-3" style="color: var(--vb-cream-dim);">Carregando...</td></tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" class="text-end">Total</th>
+                  <th id="total-comanda">R$ 0,00</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/comanda.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaughan Bar - Estoque</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="estoque-page">
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content estoque-content">
+      <div class="page-title estoque-page-header">
+        <h1 class="mb-0">Estoque</h1>
+      </div>
+
+      <div id="msg-area"></div>
+
+      <div class="row g-4 align-items-stretch estoque-layout">
+        <div class="col-lg-4">
+          <div class="vb-panel estoque-panel estoque-form-panel h-100">
+            <h2>Registrar movimentação</h2>
+            <div class="mb-3">
+              <label for="select-categoria" class="form-label">Categoria</label>
+              <select id="select-categoria" class="form-select">
+                <option value="">Todas as categorias</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="select-produto" class="form-label">Produto</label>
+              <select id="select-produto" class="form-select"></select>
+            </div>
+            <div class="mb-3">
+              <label for="select-tipo" class="form-label">Tipo</label>
+              <select id="select-tipo" class="form-select">
+                <option value="Entrada">Entrada</option>
+                <option value="Saida">Saída</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="input-quantidade" class="form-label">Quantidade</label>
+              <input type="number" id="input-quantidade" class="form-control" min="1" value="1">
+            </div>
+            <div class="mb-4">
+              <label for="input-observacao" class="form-label">Observação</label>
+              <input type="text" id="input-observacao" class="form-control" placeholder="Opcional">
+            </div>
+            <button type="button" id="btn-registrar" class="btn vb-btn-dark w-100">Registrar</button>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="vb-panel estoque-panel estoque-history-panel h-100">
+            <h2>Histórico recente</h2>
+            <div class="table-responsive">
+              <table class="table vb-table estoque-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th class="text-end">Qtd</th>
+                    <th>Observação</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-historico">
+                  <tr><td colspan="5" class="text-center py-4 table-state">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/estoque.js"></script>
+</body>
+</html>

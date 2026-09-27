@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="mesas-page">
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content mesas-content">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 page-title mesas-page-header">
+        <h1 class="mb-0">Mesas</h1>
+        <button id="btn-nova-mesa" class="btn vb-btn-dark">+ Nova mesa</button>
+      </div>
+
+      <div id="msg-area" aria-live="polite"></div>
+
+      <section class="row g-3 mesas-summary-grid" aria-label="Resumo das mesas">
+        <div class="col-12 col-md-4">
+          <div class="mesas-summary-card">
+            <strong id="resumo-total-mesas" class="mesas-summary-value">0</strong>
+            <span class="mesas-summary-label">Total de mesas</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="mesas-summary-card">
+            <strong id="resumo-mesas-livres" class="mesas-summary-value">0</strong>
+            <span class="mesas-summary-label">Livres</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="mesas-summary-card">
+            <strong id="resumo-mesas-ocupadas" class="mesas-summary-value">0</strong>
+            <span class="mesas-summary-label">Ocupadas</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="mesas-filters" aria-label="Filtros de mesas">
+        <div class="mesas-search-wrap">
+          <label class="visually-hidden" for="busca-mesas">Buscar mesa</label>
+          <input type="search" id="busca-mesas" class="form-control" placeholder="Buscar mesa..." autocomplete="off">
+        </div>
+        <button type="button" class="btn mesa-filter-button active" data-status="Todas" aria-pressed="true">Todas</button>
+        <button type="button" class="btn mesa-filter-button" data-status="Livre" aria-pressed="false">Livres</button>
+        <button type="button" class="btn mesa-filter-button" data-status="Ocupada" aria-pressed="false">Ocupadas</button>
+      </div>
+
+      <section aria-labelledby="titulo-mesas-cadastradas">
+        <h2 id="titulo-mesas-cadastradas" class="mesas-section-title">Mesas cadastradas</h2>
+        <div id="grid-mesas" class="row g-3">
+          <div class="col-12">
+            <p class="mesas-empty-state mb-0">Carregando mesas...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: cadastrar mesa -->
+  <div class="modal fade" id="modalNovaMesa" tabindex="-1" aria-labelledby="tituloModalNovaMesa" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalNovaMesa">Nova mesa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="nova-mesa-numero">Número da mesa</label>
+            <input type="number" id="nova-mesa-numero" class="form-control" min="1" step="1" required>
+          </div>
+          <div>
+            <label class="form-label" for="nova-mesa-capacidade">Capacidade</label>
+            <input type="number" id="nova-mesa-capacidade" class="form-control" min="1" step="1" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn vb-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btn-salvar-mesa" class="btn vb-btn-dark">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: abrir comanda em uma mesa livre -->
+  <div class="modal fade" id="modalAbrirComanda" tabindex="-1" aria-labelledby="tituloModalAbrir" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalAbrir">Abrir comanda</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="modal-mesa-id">
+          <div class="mb-3">
+            <label class="form-label" for="modal-cliente">Cliente (opcional)</label>
+            <select id="modal-cliente" class="form-select">
+              <option value="">Sem cliente cadastrado</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn vb-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btn-confirmar-abrir" class="btn vb-btn-dark">Abrir comanda</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/mesas.js"></script>
+</body>
+</html>

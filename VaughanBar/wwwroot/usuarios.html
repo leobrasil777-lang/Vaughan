@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaughan Bar - Usuários</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="usuarios-page">
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content usuarios-content">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 page-title usuarios-page-header">
+        <h1 class="mb-0">Usuários</h1>
+        <button type="button" id="btn-novo-usuario" class="btn vb-btn-dark">+ Novo usuário</button>
+      </div>
+
+      <div id="msg-area"></div>
+
+      <div class="vb-panel usuarios-table-panel">
+        <div class="table-responsive">
+          <table class="table vb-table usuarios-table mb-0">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Login</th>
+                <th>Cargo</th>
+                <th class="text-center">Status</th>
+                <th class="text-end">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-usuarios">
+              <tr><td colspan="5" class="text-center py-4 usuarios-table-state">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: criar/editar usuário -->
+  <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="tituloModalUsuario" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalUsuario">Novo usuário</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="usuario-id">
+          <div class="mb-3">
+            <label for="usuario-nome" class="form-label">Nome</label>
+            <input type="text" id="usuario-nome" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="usuario-login" class="form-label">Login</label>
+            <input type="text" id="usuario-login" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="usuario-senha" class="form-label">
+              Senha <span id="dica-senha" class="field-hint"></span>
+            </label>
+            <input type="password" id="usuario-senha" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="usuario-cargo" class="form-label">Cargo</label>
+            <select id="usuario-cargo" class="form-select">
+              <option value="Garcom">Garçom</option>
+              <option value="Gerente">Gerente</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="usuario-ativo" checked>
+            <label class="form-check-label" for="usuario-ativo">Usuário ativo</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn vb-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btn-salvar-usuario" class="btn vb-btn-dark">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/usuarios.js"></script>
+</body>
+</html>

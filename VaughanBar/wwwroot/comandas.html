@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="comandas-page">
+
+  <div class="app-shell">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content comandas-content">
+      <header class="page-title comandas-page-header">
+        <h1 class="mb-0">Comandas</h1>
+      </header>
+
+      <div class="comandas-toolbar">
+        <label for="busca-comandas" class="visually-hidden">Buscar comandas</label>
+        <input
+          type="search"
+          id="busca-comandas"
+          class="form-control"
+          placeholder="Buscar por número, mesa ou cliente"
+          autocomplete="off">
+        <button type="button" id="btn-nova-comanda" class="btn btn-dark">+ Nova comanda</button>
+      </div>
+
+      <div id="msg-area"></div>
+
+      <section class="vb-panel comandas-table-panel" aria-label="Lista de comandas">
+        <div class="table-responsive">
+          <table class="table vb-table mb-0 comandas-table">
+            <thead>
+              <tr>
+                <th>Comanda</th>
+                <th>Mesa</th>
+                <th>Cliente</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-comandas">
+              <tr>
+                <td colspan="6" class="text-center py-4 table-state">Carregando...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal fade" id="modalVerComanda" tabindex="-1" aria-labelledby="titulo-modal-comanda" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="titulo-modal-comanda">Comanda</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 comanda-summary">
+            <div class="col-sm-4">
+              <span class="comanda-summary-label">Mesa</span>
+              <strong id="detalhe-mesa">-</strong>
+            </div>
+            <div class="col-sm-4">
+              <span class="comanda-summary-label">Cliente</span>
+              <strong id="detalhe-cliente">-</strong>
+            </div>
+            <div class="col-sm-4">
+              <span class="comanda-summary-label">Status</span>
+              <span id="detalhe-status"></span>
+            </div>
+          </div>
+
+          <div class="table-responsive mt-4">
+            <table class="table comandas-items-table mb-0">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantidade</th>
+                  <th>Preço unitário</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-detalhe-itens">
+                <tr>
+                  <td colspan="4" class="text-center py-4 table-state">Carregando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer comandas-detail-footer">
+          <div class="comanda-total">
+            <span>Total</span>
+            <strong id="detalhe-total">R$ 0,00</strong>
+          </div>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalNovaComanda" tabindex="-1" aria-labelledby="titulo-modal-nova-comanda" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="titulo-modal-nova-comanda">Nova comanda</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nova-comanda-mesa" class="form-label">Mesa</label>
+            <select id="nova-comanda-mesa" class="form-select">
+              <option value="">Comanda avulsa</option>
+            </select>
+          </div>
+          <div>
+            <label for="nova-comanda-cliente" class="form-label">Cliente (opcional)</label>
+            <select id="nova-comanda-cliente" class="form-select">
+              <option value="">Sem cliente cadastrado</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btn-confirmar-nova-comanda" class="btn btn-dark">Abrir comanda</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/comandas.js"></script>
+</body>
+</html>
