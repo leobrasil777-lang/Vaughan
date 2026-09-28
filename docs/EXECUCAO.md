@@ -77,7 +77,10 @@ Este roteiro é uma lista de verificações a executar, não uma lista de testes
 7. Entrar como garçom e verificar que a API de usuários rejeita o acesso.
 8. Conferir relatórios para o período dos dados cadastrados.
 
-Teste cancelamentos separadamente: a rotina atual altera o status do pedido sem reconciliar mesa e estoque. Esse comportamento é uma pendência funcional documentada.
+9. Em outra comanda aberta, adicionar itens e cancelar: confirmar o estorno de estoque, o registro da movimentação e a liberação da mesa.
+10. Tentar cancelar a mesma comanda novamente: a API deve rejeitar a operação sem lançar outro estorno.
+
+Estas verificações ainda precisam ser executadas em uma instância SQL Server. O cancelamento foi corrigido no código, mas não teve validação de integração neste ambiente.
 
 ## Problemas comuns
 

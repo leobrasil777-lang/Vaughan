@@ -106,11 +106,20 @@ namespace VaughanBar.Repositories
             using var tx = conn.BeginTransaction();
             try
             {
+                using (var cmdPedido = new SqlCommand(
+                    "SELECT Status FROM Pedidos WITH (UPDLOCK, HOLDLOCK) WHERE Id=@id", conn, tx))
+                {
+                    cmdPedido.Parameters.AddWithValue("@id", pedidoId);
+                    var status = cmdPedido.ExecuteScalar() as string;
+                    if (status == null) throw new InvalidOperationException("Comanda não encontrada.");
+                    if (status != "Aberto") throw new InvalidOperationException("A comanda não está aberta.");
+                }
+
                 // Confere estoque disponível e pega o preço atual do produto
                 decimal preco;
                 int estoqueAtual;
                 using (var cmdProd = new SqlCommand(
-                    "SELECT Preco, QuantidadeEstoque FROM Produtos WHERE Id=@id AND Ativo=1", conn, tx))
+                    "SELECT Preco, QuantidadeEstoque FROM Produtos WITH (UPDLOCK, HOLDLOCK) WHERE Id=@id AND Ativo=1", conn, tx))
                 {
                     cmdProd.Parameters.AddWithValue("@id", produtoId);
                     using var reader = cmdProd.ExecuteReader();
@@ -164,11 +173,14 @@ namespace VaughanBar.Repositories
             {
                 int produtoId, quantidade;
                 using (var cmdSel = new SqlCommand(
-                    "SELECT ProdutoId, Quantidade FROM ItensPedido WHERE Id=@id", conn, tx))
+                    @"SELECT ip.ProdutoId, ip.Quantidade
+                      FROM ItensPedido ip
+                      JOIN Pedidos p WITH (UPDLOCK, HOLDLOCK) ON p.Id=ip.PedidoId
+                      WHERE ip.Id=@id AND p.Status='Aberto'", conn, tx))
                 {
                     cmdSel.Parameters.AddWithValue("@id", itemId);
                     using var reader = cmdSel.ExecuteReader();
-                    if (!reader.Read()) throw new InvalidOperationException("Item não encontrado.");
+                    if (!reader.Read()) throw new InvalidOperationException("Item não encontrado em comanda aberta.");
                     produtoId = reader.GetInt32(0);
                     quantidade = reader.GetInt32(1);
                 }
@@ -237,12 +249,68 @@ namespace VaughanBar.Repositories
             }
         }
 
+        /// <summary>Cancela uma comanda aberta e estorna seus itens em uma única transação.</summary>
         public void CancelarComanda(int pedidoId)
         {
             using var conn = ConexaoBanco.Abrir();
-            using var cmd = new SqlCommand("UPDATE Pedidos SET Status='Cancelado' WHERE Id=@id", conn);
-            cmd.Parameters.AddWithValue("@id", pedidoId);
-            cmd.ExecuteNonQuery();
+            using var tx = conn.BeginTransaction();
+            try
+            {
+                int? mesaId;
+                using (var cmdPedido = new SqlCommand(
+                    "SELECT MesaId, Status FROM Pedidos WITH (UPDLOCK, HOLDLOCK) WHERE Id=@id", conn, tx))
+                {
+                    cmdPedido.Parameters.AddWithValue("@id", pedidoId);
+                    using var reader = cmdPedido.ExecuteReader();
+                    if (!reader.Read()) throw new InvalidOperationException("Comanda não encontrada.");
+                    mesaId = reader.IsDBNull(0) ? null : reader.GetInt32(0);
+                    if (reader.GetString(1) != "Aberto")
+                        throw new InvalidOperationException("Somente uma comanda aberta pode ser cancelada.");
+                }
+
+                // Registra um estorno por produto, inclusive quando houver vários itens do mesmo produto.
+                using (var cmdEstorno = new SqlCommand(@"
+                    INSERT INTO MovimentosEstoque (ProdutoId, TipoMovimento, Quantidade, DataMovimento, Observacao)
+                    SELECT ProdutoId, 'Entrada', SUM(Quantidade), GETDATE(), @observacao
+                    FROM ItensPedido WHERE PedidoId=@id GROUP BY ProdutoId;
+
+                    UPDATE p SET QuantidadeEstoque = p.QuantidadeEstoque + i.Quantidade
+                    FROM Produtos p
+                    JOIN (SELECT ProdutoId, SUM(Quantidade) AS Quantidade
+                          FROM ItensPedido WHERE PedidoId=@id GROUP BY ProdutoId) i ON i.ProdutoId=p.Id;", conn, tx))
+                {
+                    cmdEstorno.Parameters.AddWithValue("@id", pedidoId);
+                    cmdEstorno.Parameters.AddWithValue("@observacao", $"Estorno de cancelamento - Pedido #{pedidoId}");
+                    cmdEstorno.ExecuteNonQuery();
+                }
+
+                using (var cmdStatus = new SqlCommand(
+                    "UPDATE Pedidos SET Status='Cancelado' WHERE Id=@id AND Status='Aberto'", conn, tx))
+                {
+                    cmdStatus.Parameters.AddWithValue("@id", pedidoId);
+                    if (cmdStatus.ExecuteNonQuery() != 1)
+                        throw new InvalidOperationException("Não foi possível cancelar a comanda.");
+                }
+
+                if (mesaId != null)
+                {
+                    using var cmdMesa = new SqlCommand(@"
+                        UPDATE Mesas SET Status='Livre'
+                        WHERE Id=@mesaId
+                          AND NOT EXISTS (
+                            SELECT 1 FROM Pedidos
+                            WHERE MesaId=@mesaId AND Status='Aberto')", conn, tx);
+                    cmdMesa.Parameters.AddWithValue("@mesaId", mesaId.Value);
+                    cmdMesa.ExecuteNonQuery();
+                }
+
+                tx.Commit();
+            }
+            catch
+            {
+                tx.Rollback();
+                throw;
+            }
         }
 
         private static Pedido LerCabecalho(SqlDataReader reader) => new()

@@ -109,8 +109,15 @@ namespace VaughanBar.Handlers
             var usuario = ctx.UsuarioAutenticado();
             if (usuario == null) { ctx.ResponderErro("Não autenticado.", 401); return; }
 
-            _repo.CancelarComanda(pedidoId);
-            ctx.ResponderJson(new { ok = true });
+            try
+            {
+                _repo.CancelarComanda(pedidoId);
+                ctx.ResponderJson(new { ok = true });
+            }
+            catch (InvalidOperationException ex)
+            {
+                ctx.ResponderErro(ex.Message);
+            }
         }
     }
 }

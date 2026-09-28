@@ -15,13 +15,13 @@ Também será necessário revisar expiração de sessões, autorização, config
 
 ## Regras de negócio
 
-`PedidoRepository.CancelarComanda` atualmente atualiza apenas o status para `Cancelado`. Definir e implementar o tratamento da mesa e do estoque para esse fluxo. Não presumir que cancelar equivale a desfazer todos os efeitos do pedido.
+O cancelamento agora estorna itens ao estoque, registra entradas e libera a mesa sem outras comandas abertas, em transação. A inclusão e a remoção de itens exigem comanda aberta. Essas alterações ainda requerem validação de integração no SQL Server. O fechamento de pedidos e a abertura de duas comandas para a mesma mesa precisam de regras explícitas antes de uma implantação real.
 
 ## Validação pendente
 
 - Executar a instalação em um banco vazio.
 - Validar login, estoque, fechamento e relatórios com dados fictícios.
-- Criar testes relevantes para estoque, permissões e cancelamentos.
+- Criar testes de integração relevantes para estoque, permissões e cancelamentos.
 - Produzir capturas atuais da interface depois da validação funcional.
 
 As capturas SQL exibidas no README foram herdadas do material acadêmico. Não comprovam a execução desta revisão nem devem ser apresentadas como métricas de desempenho.
