@@ -2,7 +2,7 @@
 
 Sistema acadêmico de gestão para bares e restaurantes, com mesas, comandas, produtos, estoque, usuários e relatórios de vendas.
 
-Esta edição de portfólio apresenta o projeto desenvolvido no contexto acadêmico e documenta sua implementação. O código utiliza C# e SQL escritos diretamente, permitindo estudar o caminho completo entre a interface, as requisições HTTP e o banco relacional.
+Esta edição de portfólio apresenta o projeto desenvolvido no contexto acadêmico e documenta sua implementação. O código utiliza C# e SQL, sendo o caminho completo entre a interface, as requisições HTTP e o banco relacional.
 
 **Status:** demonstração local em evolução. A autenticação atual não é adequada para publicação em produção. Consulte as [limitações conhecidas](docs/LIMITACOES.md).
 
